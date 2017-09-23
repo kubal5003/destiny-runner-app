@@ -1,0 +1,11 @@
+{
+  "name": "destiny-runner-app",
+  "version": "0.0.1",
+  "description": "This is the application that is used by destiny-runner. Provided in separate package for ease of development and better separation of concerns.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jakub Leśniak",
+  "license": "ISC"
+}
