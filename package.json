@@ -2,9 +2,38 @@
   "name": "destiny-runner-app",
   "version": "0.0.1",
   "description": "This is the application that is used by destiny-runner. Provided in separate package for ease of development and better separation of concerns.",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server",
+    "lint": "eslint src",
+    "prebuild": "rimraf dist",
+    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js",
+    "postbuild": "copyfiles index.html dist"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-toolbox": "^2.0.0-beta.12",
+    "socket.io-client": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.22.0",
+    "copyfiles": "^1.2.0",
+    "cross-env": "^3.1.4",
+    "css-loader": "^0.28.7",
+    "eslint": "^3.14.1",
+    "eslint-plugin-react": "^6.9.0",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "rimraf": "^2.6.0",
+    "style-loader": "^0.18.2",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   },
   "author": "Jakub Leśniak",
   "license": "ISC"
