@@ -37,12 +37,15 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 },
-                // include: /node_modules\/react-toolbox/,
-                // exclude: /node_modules/,
+
+                 exclude: /node_modules/,
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+                use: [
+                    "style-loader",
+                    "css-loader"
+                ]
             }
         ],
     },
@@ -65,7 +68,7 @@ module.exports = {
         historyApiFallback: true,
         // respond to 404s with index.html
 
-        hot: false,
+        hot: true,
         // enable HMR on the server
     },
 };

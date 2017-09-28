@@ -1,0 +1,9 @@
+.spec{
+    padding: 5px 10px 5px 0;
+    font-size: 1.3rem;
+
+}
+
+.spec-name:hover {
+    text-decoration: underline;
+}

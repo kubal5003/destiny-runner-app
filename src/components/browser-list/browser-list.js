@@ -1,36 +1,36 @@
 import React from 'react';
 import { KarmaService } from "../../shared/karma-service";
-import { Tabs, Tab } from "react-toolbox/src/components/tabs";
-
+import Tabs from "react-bootstrap/es/Tabs";
+import Tab from "react-bootstrap/es/Tab";
+import { Browser } from "../browser/browser";
 
 export class BrowserList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            index: 0
+            karmaService: new KarmaService()
         };
     }
 
     render() {
-        return (
-            <Tabs index={this.state.index} onChange={this.handleTabChange} inverse>
-                {
-                    this.state.browsers && this.state.browsers.map((b, i) => {
-                        return <Tab label={b.name}>asdasdadaedwewedwerwerwerwrwerwrwerwerwe</Tab>;
-                    })
-                }
-                <Tab label="Static tab">dasdadasd<br/><br/><br/><br/></Tab>
-
-            </Tabs>
-        );
+        let browsers = this.state.browsers;
+        let hasBrowsers = browsers && browsers.length > 0;
+        if (hasBrowsers) {
+            return (
+                <Tabs id="browser-tabs">
+                    {
+                        browsers.map((b, i) => {
+                            return (<Tab title={b.name} key={i} eventKey={i}>
+                                <Browser instance={b} karmaService={this.state.karmaService}> </Browser>
+                            </Tab>);
+                        })
+                    }
+                </Tabs>
+            );
+        } else return (<div>No connected browsers yet</div> );
     }
 
     componentDidMount() {
-        let karmaService = new KarmaService();
-        karmaService.connect((browsers) => this.setState({ browsers: browsers }));
-    }
-
-    handleTabChange() {
-
+        this.state.karmaService.connect((browsers) => this.setState({ browsers: browsers }));
     }
 }

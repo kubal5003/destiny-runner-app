@@ -1,14 +1,18 @@
 import openSocket from 'socket.io-client';
-
+import store from './store';
+import { immutableReplace } from "./immutableHelpers";
 
 export class KarmaService {
 
     constructor() {
-        this.browsers = [];
+        if(!store.browsers){
+            store.browsers = [];
+        }
+        this.specsSubscriptions = [];
     }
 
     connect(updated) {
-        console.log('Trying to connect');
+        console.log('Trying to connect to your destiny...');
 
         const socket = openSocket('ws://localhost:3000');
 
@@ -20,27 +24,52 @@ export class KarmaService {
             console.log(bye);
         });
 
-        socket.on('browser_register', browser => {
-            console.log('Browser registered', browser);
-            this.browsers = [...this.browsers, browser];
-            updated(this.browsers);
-        });
-        socket.on('browser_start', start_info => {
-            console.log('Browser started', start_info)
-            let browser = start_info.browser;
-            browser.info = start_info.info;
-            this.browsers = [browser];
-            updated(this.browsers);
+        socket.on('browser_register', (browser, ...rest) => {
+            console.log('Browser registered', browser, rest);
+            store.browsers = [...store.browsers, browser];
+            updated(store.browsers);
         });
 
-        // this.socket.on('browser_completed_run', () => {
+        socket.on('browser_start', (browser, info) => {
+            console.log('Browser started', browser, info);
+
+            store.browsers = immutableReplace(store.browsers, browser, b => b.id === browser.id);
+            updated(store.browsers, store);
+
+            let subscriptions = this.specsSubscriptions.filter(s => s.id === browser.id);
+            subscriptions.forEach(s => s.callback(info.specs));
+        });
+
+        // socket.on('browser_complete', (browser, run_info, x, y) => {
         //     //this one has information about coverage etc.
+        //     console.log('Browser completed. Browser:', browser, 'Run info:', run_info, x, y);
         // });
-        //
-        // this.socket.on('run_complete', () => {
+
+        // socket.on('run_complete', (browsers, results, x, y) => {
         //     //this one has information about test result
+        //     console.log('Run complete. Browsers:', browsers, ' Results:', results, x, y);
         // });
+
+        // socket.on('browser_error', (...rest) => {
+        //     //this one has information about test result
+        //     console.log('Browser error:', rest);
+        // });
+
+        // socket.on('browser_change', (...rest) => {
+        //     //this one has information about test result
+        //     console.log('Browser change:', rest);
+        // });
+
+        // socket.on('spec_complete', (...rest) => {
+        //     //this one has information about test result
+        //     console.log('Spec complete:', rest);
+        // });
+    }
+
+    subscribeForSpecs(browserId, callback) {
+        this.specsSubscriptions.push({id: browserId, callback: callback});
     }
 }
 
-//browser: id,name
+
+

@@ -1,0 +1,15 @@
+html, body{
+    font-size: 12px;
+    font-family: 'Fira Mono', monospace;
+    background-color: rgb(27, 29, 30);
+}
+
+.navbar-header a{
+    font-size: 2em;
+}
+
+ul.nav-tabs li a {
+    background-color: rgb(47, 49, 50) !important;
+    color: white !important;
+    border: none !important;
+}
