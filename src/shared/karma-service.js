@@ -60,14 +60,20 @@ export class KarmaService {
         //     console.log('Browser change:', rest);
         // });
 
-        // socket.on('spec_complete', (...rest) => {
-        //     //this one has information about test result
-        //     console.log('Spec complete:', rest);
-        // });
+        socket.on('spec_complete', (browser, result) => {
+            store.browsers = immutableReplace(store.browsers, browser, b => b.id === browser.id);
+            updated(store.browsers, store);
+
+            console.log('Test complete:', result);
+        });
     }
 
     subscribeForSpecs(browserId, callback) {
         this.specsSubscriptions.push({id: browserId, callback: callback});
+    }
+
+    subscribeForSpecResult(browserId, path, callback) {
+        console.log('Subscription', path);
     }
 }
 

@@ -4,9 +4,16 @@ import './spec.css'
 export class Spec extends React.Component {
     constructor(props) {
         super(props);
+        let newPath = (this.props.path || []).concat(this.props.name);
+
+        let karmaService = props.karmaService;
         this.state = {
-            specs: props.specs
+            specs: props.specs,
+            newPath: newPath,
         };
+        karmaService.subscribeForSpecResult(props.browserId, newPath, () => {
+
+        });
     }
 
     render() {
@@ -15,6 +22,7 @@ export class Spec extends React.Component {
             .sort();
         let hasChildren = children.length > 0;
         let marginLevel = this.props.level > 0 ? this.props.level : 0;
+
         return (
 
             <div className={"spec"} style={{ "marginLeft": marginLevel * 30 + 'px' }}>
@@ -30,6 +38,8 @@ export class Spec extends React.Component {
                             key={keySoFar}
                             keySoFar={keySoFar}
                             level={this.props.level + 1}
+                            path={this.state.newPath}
+                            karmaService={this.props.karmaService}
                         > </Spec>);
                     })
                 }

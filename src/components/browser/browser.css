@@ -6,21 +6,24 @@
     padding-top: 40px;
 }
 
-.overall {
+.overall-well {
     background-color: rgb(47, 49, 50);
+    width: 1000px;
     border: none;
+    margin-left: 40px;
+    color: white;
+}
+
+.overall {
     font-size: 1.5rem;
     display: flex;
     justify-content: space-between;
-    width: 1000px;
-    margin-left: 40px;
-
+    margin-bottom: 20px;
 }
 
 .overall div {
     display: flex;
     align-items: center;
-
 }
 
 .overall .badge {
@@ -30,13 +33,17 @@
 }
 
 .passed .badge {
-    background-color: green;
+    background: #5cb85c linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
 }
 
 .failed .badge {
-    background-color: darkred;
+    background: #d9534f linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+
+.skipped .badge {
+    background: #5bc0de linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
 }
 
 .total .badge {
-    background-color: deepskyblue;
+
 }

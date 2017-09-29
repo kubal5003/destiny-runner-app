@@ -13,16 +13,17 @@ export class TestTree extends React.Component {
 
     render() {
         let keySoFar = '/tests';
-        if(this.state.specs) {
+        if (this.state.specs) {
             return (
                 <div className="test-suite">
                     <Spec name="Tests" specs={this.state.specs} browserId={this.props.browserId}
                           keySoFar={keySoFar}
                           key={keySoFar}
                           level={-1}
-                          skipSelf={true}> </Spec>
+                          skipSelf={true}
+                          karmaService={this.props.karmaService}> </Spec>
                 </div>);
-        } else{
+        } else {
             return <div></div>;
         }
     }
