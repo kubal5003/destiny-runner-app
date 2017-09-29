@@ -45,6 +45,7 @@ export class Spec extends React.Component {
             <span className="spec-name">
                 {hasChildren ? '-' : '\u00A0'}
                 {this.props.name}
+                <div className="running"> $ </div>
             </span>);
     }
 }
