@@ -1,6 +1,6 @@
 {
   "name": "destiny-runner-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This is the application that is used by destiny-runner. Provided in separate package for ease of development and better separation of concerns.",
   "scripts": {
     "start": "webpack-dev-server",
