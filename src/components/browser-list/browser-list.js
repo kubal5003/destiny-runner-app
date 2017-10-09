@@ -8,7 +8,7 @@ export class BrowserList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            karmaService: new KarmaService()
+            karmaService: props.karmaService
         };
     }
 

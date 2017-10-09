@@ -16,7 +16,7 @@ export class TestTree extends React.Component {
         if (this.state.specs) {
             return (
                 <div className="test-suite">
-                    <Spec name="Tests" specs={this.state.specs} browserId={this.props.browserId}
+                    <Spec name="#DestinyRootTests#" specs={this.state.specs} browserId={this.props.browserId}
                           keySoFar={keySoFar}
                           key={keySoFar}
                           level={-1}

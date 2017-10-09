@@ -1,0 +1,18 @@
+.test-running {
+    color: white;
+}
+
+.test-success {
+    transition: color 2s ease;
+    color: #5cb85c;
+}
+
+.test-failed {
+    transition: color 2s ease;
+    color: #d9534f;
+}
+
+.test-skipped {
+    transition: color 2s ease;
+    color: dimgray;
+}

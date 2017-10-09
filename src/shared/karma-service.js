@@ -5,16 +5,18 @@ import { immutableReplace } from "./immutableHelpers";
 export class KarmaService {
 
     constructor() {
-        if(!store.browsers){
+        if (!store.browsers) {
             store.browsers = [];
         }
         this.specsSubscriptions = [];
+        this.specResultSubscriptions = {};
     }
 
     connect(updated) {
         console.log('Trying to connect to your destiny...');
 
         const socket = openSocket('ws://localhost:3000');
+        socket.emit('replay');
 
         socket.on('hello', hello => {
             console.log(hello);
@@ -64,16 +66,66 @@ export class KarmaService {
             store.browsers = immutableReplace(store.browsers, browser, b => b.id === browser.id);
             updated(store.browsers, store);
 
-            console.log('Test complete:', result);
+            let name = result.description;
+            let path = result.suite;
+            let finished = result.pending;
+            let skipped = result.skipped;
+            let success = result.success;
+
+            //if (finished) {
+            let callback = this.getCallbackForTest(browser.id, name, path);
+            if (!callback) {
+                console.log('Cannot find subscription for test.', browser.id, name, path)
+                return;
+            }
+            callback(skipped, success);
+            //}
         });
+
+        this.start = () => {
+            socket.emit('execute');
+        }
+
+        this.refresh = () => {
+            socket.emit('refresh');
+        }
     }
 
     subscribeForSpecs(browserId, callback) {
-        this.specsSubscriptions.push({id: browserId, callback: callback});
+        this.specsSubscriptions.push({ id: browserId, callback: callback });
     }
 
-    subscribeForSpecResult(browserId, path, callback) {
-        console.log('Subscription', path);
+    subscribeForSpecResult(browserId, name, path, callback) {
+
+        //removing the root since it doesn't really help us..
+        if (path[0] === '#DestinyRootTests#') {
+            path = path.slice(1);
+        }
+        let current = this.specResultSubscriptions;
+
+        if (!current[browserId]) {
+            current[browserId] = {};
+        }
+        current = current[browserId];
+
+        for (let p of path) {
+            if (current[p] === undefined) {
+                current[p] = {};
+            }
+            current = current[p];
+        }
+        current[name] = callback;
+    }
+
+    getCallbackForTest(browserId, name, path) {
+        let current = this.specResultSubscriptions[browserId];
+        for (let p of path) {
+            current = current[p];
+            if (!current) {
+                return undefined;
+            }
+        }
+        return current[name];
     }
 }
 
